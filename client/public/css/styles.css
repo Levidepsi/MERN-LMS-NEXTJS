@@ -1,0 +1,15 @@
+.text-center {
+  text-align: center !important;
+  height: 200px;
+  justify-content: center;
+  align-items: center;
+}
+
+.square {
+  border-radius: 0px;
+}
+
+.jumbotron {
+  background-image: linear-gradient(to right, #007bff, #000);
+  color: #fff !important;
+}
