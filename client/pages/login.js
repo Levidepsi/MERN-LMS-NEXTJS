@@ -1,13 +1,27 @@
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { SyncOutlined } from "@ant-design/icons";
 import Link from "next/link";
+import { Context } from "../context";
+import { useRouter } from "next/router";
+import { setCookie } from "../middleware/auth";
 
 const register = () => {
   const [email, setEmail] = useState("levi@gmail.com");
   const [password, setPassword] = useState("123456");
   const [loading, setLoading] = useState(false);
+
+  // state
+  const { state, dispatch } = useContext(Context);
+  const { user } = state;
+
+  // router
+  const router = useRouter();
+
+  useEffect(() => {
+    if (user !== null) router.push("/");
+  }, [user]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -20,11 +34,14 @@ const register = () => {
           password,
         }
       );
-      // console.log("Registered", data);
-      console.log("Login Successful", data);
+      dispatch({ type: "LOGIN", payload: data });
+      window.localStorage.setItem("user", JSON.stringify(data.user));
+      setCookie("token", data.token);
+      // redirect
+      router.push("/");
       // setLoading(false);
     } catch (error) {
-      toast.error(error.response.data);
+      toast.error(error);
     }
   };
   return (

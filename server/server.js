@@ -2,20 +2,32 @@ import express from "express";
 import cors from "cors";
 const morgan = require("morgan");
 import dotenv from "dotenv";
-import authRoute from "./routes/auth.js";
-import DBConn from "./db.js";
-
 dotenv.config();
+import DBConn from "./db.js";
+import csrf from "csurf";
+import cookieParser from "cookie-parser";
+import authRoute from "./routes/auth.js";
+
+const csrfProtection = csrf({ cookie: true });
 
 // create express app
 const app = express();
 
 // middlewares
-app.use(cors());
 app.use(express.json());
+app.use(cookieParser());
 app.use(morgan("dev"));
+app.use(cors());
 
 app.use("/api", authRoute);
+
+// csrf
+app.use(csrfProtection);
+
+app.get("/api/csrf-token", (req, res, next) => {
+  res.json({ csrfToken: req.csrfToken() });
+  next();
+});
 
 const PORT = process.env.PORT || 5000;
 DBConn();
