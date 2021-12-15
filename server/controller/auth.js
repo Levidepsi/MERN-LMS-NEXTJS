@@ -11,10 +11,10 @@ import AWS from "aws-sdk";
 // export const s3Client = new S3Client({ region: REGION });
 
 const awsConfig = {
-  accessKeyId: "AKIAQ4PUZ5AQ5XWP5P2J",
-  secretAccessKey: "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",
-  region: "us-east-2",
-  apiVersion: "2010-12-01",
+  accessKeyId: "",
+  secretAccessKey: "",
+  region: "",
+  apiVersion: "",
 };
 // console.log(awsConfig);
 const SES = new AWS.SES(awsConfig);
