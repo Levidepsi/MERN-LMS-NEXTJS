@@ -7,10 +7,10 @@ import { nanoid } from "nanoid";
 import AWS from "aws-sdk";
 
 const awsConfig = {
-  accessKeyId: "AKIAQ4PUZ5AQSDWCR4DS",
-  secretAccessKey: "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",
-  region: "us-east-2",
-  apiVersion: "2010-12-01",
+  accessKeyId: "process.env.AWS_ACCESS_KEY_ID",
+  secretAccessKey: "process.env.AWS_SECRET_ACCESS_KEY",
+  region: "process.env.AWS_REGION",
+  apiVersion: "process.env.AWS_API_VERSION",
 };
 const SES = new AWS.SES(awsConfig);
 
