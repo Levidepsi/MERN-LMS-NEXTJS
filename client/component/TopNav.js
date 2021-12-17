@@ -76,7 +76,7 @@ const TopNav = () => {
         <SubMenu
           icon={<CoffeeOutlined />}
           title={user && user.name}
-          className="float-right"
+          className="float-end"
         >
           <ItemGroup>
             <Item key="/user">
@@ -84,7 +84,7 @@ const TopNav = () => {
                 <a>Dashboard</a>
               </Link>
             </Item>
-            <Item key="/logout" onClick={logout} className="text-center">
+            <Item key="/logout" onClick={logout}>
               Logout
             </Item>
           </ItemGroup>

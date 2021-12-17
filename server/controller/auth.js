@@ -3,20 +3,15 @@ import { hashPassword, comparePassword } from "../utils/auth.js";
 import jwt from "jsonwebtoken";
 import asynchandler from "express-async-handler";
 import cookie from "cookie";
+import { nanoid } from "nanoid";
 import AWS from "aws-sdk";
-// import { S3Client } from "@aws-sdk/client-s3";
-
-// const REGION = "REGION";
-
-// export const s3Client = new S3Client({ region: REGION });
 
 const awsConfig = {
-  accessKeyId: "",
-  secretAccessKey: "",
-  region: "",
-  apiVersion: "",
+  accessKeyId: "AKIAQ4PUZ5AQSDWCR4DS",
+  secretAccessKey: "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",
+  region: "us-east-2",
+  apiVersion: "2010-12-01",
 };
-// console.log(awsConfig);
 const SES = new AWS.SES(awsConfig);
 
 export const register = asynchandler(async (req, res) => {
@@ -58,6 +53,7 @@ export const login = asynchandler(async (req, res) => {
     if (!user) return res.status(400).send("No User Found");
 
     const match = await comparePassword(password, user.password);
+    if (!match) return res.status(400).send("Wrong Password");
 
     const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
       expiresIn: "7day",
@@ -111,46 +107,70 @@ export const currentUser = asynchandler(async (req, res) => {
   }
 });
 
-export const sendTestEmail = async (req, res) => {
-  // console.log("send email using SES");
-  // res.json({ ok: true });
+export const forgotPassword = asynchandler(async (req, res) => {
+  try {
+    const { email } = req.body;
+    // console.log(email);
+    const shortCode = nanoid(6).toUpperCase();
+    const user = await User.findOneAndUpdate(
+      { email },
+      { passwordResetCode: shortCode }
+    );
+    if (!user) return res.status(400).send("User not found");
 
-  const params = {
-    Source: process.env.EMAIL_FROM,
-    Destination: {
-      ToAddresses: ["levidepsi7@gmail.com"],
-    },
-    ReplyToAddresses: [process.env.EMAIL_FROM],
-    Message: {
-      Body: {
-        Html: {
-          Charset: "UTF-8",
-          Data: `
-            <html>
-              <h1>Reset Password Link</h1>
-              <p>Please use the following link to reset password</p>
-            </html>
+    const params = {
+      Source: process.env.EMAIL_FROM,
+      Destination: {
+        ToAddresses: [email],
+      },
+      Message: {
+        Body: {
+          Html: {
+            Charset: "UTF-8",
+            Data: `
+              <html>
+                <h1>Reset Password</h1>
+                <p>Use this code to reset your password</p>
+                <h2 style='color:red; '>${shortCode}</h2>
+                <i>edemy.com</i>
+              </html>
             `,
+          },
         },
+        Subject: { Charset: "UTF-8", Data: "RESET PASSWORD" },
       },
-      Subject: {
-        Charset: "UTF-8",
-        Data: "Password Reset Link",
-      },
-    },
-  };
-  SES.sendEmail(params)
-    .promise()
-    .then((data) => {
-      console.log(data);
-      res.json({ ok: true });
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+    };
 
-  // if (emailSent) {
-  //   console.log(data);
-  //   return res.json(data);
-  // }
-};
+    const emailSent = SES.sendEmail(params).promise();
+
+    emailSent
+      .then((data) => {
+        console.log(data);
+        res.json({ ok: true });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+export const resetPassword = asynchandler(async (req, res) => {
+  try {
+    const { email, code, newPassword } = req.body;
+    // console.table({ email, code, newPassword });
+    const hashedPassword = await hashPassword(newPassword);
+    const user = User.findOneAndUpdate(
+      { email, passwordResetCode: code },
+      {
+        password: hashedPassword,
+        passwordResetCode: "",
+      }
+    ).exec();
+    res.json({ ok: true });
+  } catch (error) {
+    console.log(error);
+    res.status(400).send("Error try again");
+  }
+});

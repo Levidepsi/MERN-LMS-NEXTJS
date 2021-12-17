@@ -35,6 +35,9 @@ const register = () => {
       );
       // console.log("Registered", data);
       toast.success("Registration Successfull");
+      setName("");
+      setEmail("");
+      setPassword("");
       setLoading(false);
     } catch (error) {
       toast.error(error.response.data);

@@ -8,8 +8,8 @@ import { useRouter } from "next/router";
 import { setCookie } from "../middleware/auth";
 
 const register = () => {
-  const [email, setEmail] = useState("levi@gmail.com");
-  const [password, setPassword] = useState("123456");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
   // state
@@ -41,7 +41,9 @@ const register = () => {
       router.push("/");
       // setLoading(false);
     } catch (error) {
-      toast.error(error);
+      console.log(error);
+      toast.error("Wrong Passowrd");
+      setLoading(false);
     }
   };
   return (
@@ -83,10 +85,15 @@ const register = () => {
             </button>
           </div>
         </form>
-        <p className="text-center p-3">
+        <p className="text-center pt-3">
           No Account?{" "}
           <Link href="/register">
             <a>Register</a>
+          </Link>
+        </p>
+        <p className="text-center ">
+          <Link href="/forgotPassword">
+            <a className="text-danger">Forgot Password</a>
           </Link>
         </p>
       </div>
