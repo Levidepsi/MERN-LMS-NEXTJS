@@ -7,6 +7,7 @@ import DBConn from "./db.js";
 import csrf from "csurf";
 import cookieParser from "cookie-parser";
 import authRoute from "./routes/auth.js";
+import instructor from "./routes/instructor.js";
 
 const csrfProtection = csrf({ cookie: true });
 
@@ -17,9 +18,10 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 app.use(morgan("dev"));
-app.use(cors());
+app.use(cors({ origin: "http://localhost:3000" }));
 
 app.use("/api", authRoute);
+app.use("/api", instructor);
 
 // csrf
 app.use(csrfProtection);

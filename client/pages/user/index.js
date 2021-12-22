@@ -11,9 +11,9 @@ const UserIndex = () => {
     <UserRoute>
       <h1
         className="jumbotron text-center bg-primary square"
-        style={{ display: "grid", height: "100vh" }}
+        style={{ display: "grid" }}
       >
-        <pre>{JSON.stringify(user, null, 4)}</pre>
+        User Dashboard
       </h1>
     </UserRoute>
   );

@@ -7,6 +7,8 @@ import {
   LoginOutlined,
   LogoutOutlined,
   UserAddOutlined,
+  CarryOutFilled,
+  TeamOutlined,
 } from "@ant-design/icons";
 import { Context } from "../context";
 import axios from "axios";
@@ -44,9 +46,31 @@ const TopNav = () => {
         icon={<AppstoreOutlined />}
       >
         <Link href="/">
-          <a className="typewriter">App</a>
+          <a>App</a>
         </Link>
       </Item>
+
+      {user && user.role && user.role.includes("Instructor") ? (
+        <Item
+          key="/instructor/course/create"
+          onClick={(e) => setCurrent(e.key)}
+          icon={<CarryOutFilled />}
+        >
+          <Link href="/instructor/course/create">
+            <a>Create Course</a>
+          </Link>
+        </Item>
+      ) : (
+        <Item
+          key="/user/become-instructor"
+          onClick={(e) => setCurrent(e.key)}
+          icon={<TeamOutlined />}
+        >
+          <Link href="/user/become-instructor">
+            <a>Become Instructor</a>
+          </Link>
+        </Item>
+      )}
 
       {user === null && (
         <>
@@ -56,7 +80,7 @@ const TopNav = () => {
             icon={<LoginOutlined />}
           >
             <Link href="/login">
-              <a className="typewriter">Login</a>
+              <a>Login</a>
             </Link>
           </Item>
           {/* <h1>{authenticated()}</h1> */}
@@ -67,7 +91,7 @@ const TopNav = () => {
             icon={<UserAddOutlined />}
           >
             <Link href="/register">
-              <a className="typewriter">Register</a>
+              <a>Register</a>
             </Link>
           </Item>
         </>
@@ -76,7 +100,8 @@ const TopNav = () => {
         <SubMenu
           icon={<CoffeeOutlined />}
           title={user && user.name}
-          className="float-end"
+          className="float-right"
+          style={{ display: "grid" }}
         >
           <ItemGroup>
             <Item key="/user">
