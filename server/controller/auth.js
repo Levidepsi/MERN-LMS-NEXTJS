@@ -7,8 +7,8 @@ import { nanoid } from "nanoid";
 import AWS from "aws-sdk";
 
 const awsConfig = {
-  accessKeyId: "AKIAQ4PUZ5AQSDWCR4DS",
-  secretAccessKey: "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",
+  accessKeyId: "",
+  secretAccessKey: "",
   region: "us-east-2",
   apiVersion: "2010-12-01",
 };
