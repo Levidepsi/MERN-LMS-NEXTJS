@@ -1,33 +1,34 @@
-// const express = require("express");
-// const next = require("next");
-// const { createProxyMiddleware } = require("http-proxy-middleware");
+const express = require("express");
+const next = require("next");
+const { createProxyMiddleware } = require("http-proxy-middleware");
 
-// const dev = process.env.NODE_ENV !== "production";
-// const app = next({ dev });
-// const handle = app.getRequestHandler();
+const dev = process.env.NODE_ENV !== "production";
 
-// app
-//   .prepare()
-//   .then(() => {
-//     const server = express();
-//     // console.log(server);
-//     if (dev) {
-//       server.use(
-//         "/api",
-//         createProxyMiddleware({
-//           target: "http://localhost:5000",
-//           changeOrigin: true,
-//         })
-//       );
-//     }
-//     server.all("*", (req, res) => {
-//       return handle(req, res);
-//     });
-//     server.listen(3000, (err) => {
-//       if (err) throw err;
-//       console.log("> Ready on  http://localhost:5000");
-//     });
-//   })
-//   .catch((err) => {
-//     console.log("Error", err);
-//   });
+const app = next({ dev });
+
+const handle = app.getRequestHandler();
+
+app
+	.prepare()
+	.then(() => {
+		const server = express();
+		if (dev) {
+			server.use(
+				"/api",
+				createProxyMiddleware({
+					target: "http://localhost:8000",
+					changeOrign: true
+				})
+			);
+		}
+		server.all("*", (req, res) => {
+			return handle(req, res);
+		});
+		server.listen(3000, err => {
+			if (err) throw err;
+			console.log("> Ready on http://localhost:8000");
+		});
+	})
+	.catch(error => {
+		console.log(error);
+	});

@@ -1,15 +1,15 @@
-const Index = () => {
-  return (
-    <>
-      <h1
-        className="jumbotron text-center bg-primary square"
-        style={{ display: "grid" }}
-      >
-        Online Education Marketplace
-      </h1>
-      <p>From next js...</p>
-    </>
-  );
+const Login = () => {
+	return (
+		<>
+			<h1
+				className='jumbotron text-center bg-primary square'
+				style={{ display: "grid" }}
+			>
+				Programming Course
+			</h1>
+			<p>Next</p>
+		</>
+	);
 };
 
-export default Index;
+export default Login;
