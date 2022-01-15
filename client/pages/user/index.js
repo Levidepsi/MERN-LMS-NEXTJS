@@ -1,22 +1,21 @@
-import { useState, useEffect, useContext } from "react";
+import { useContext } from "react";
 import { Context } from "../../context";
-import axios from "axios";
-
-import UserRoute from "../../component/routes/UserRoute";
+import UserRoute from "../../components/routes/UserRoute";
 
 const UserIndex = () => {
-  const { state: user } = useContext(Context);
+	const {
+		state: { user }
+	} = useContext(Context);
 
-  return (
-    <UserRoute>
-      <h1
-        className="jumbotron text-center bg-primary square"
-        style={{ display: "grid" }}
-      >
-        User Dashboard
-      </h1>
-    </UserRoute>
-  );
+	return (
+		<UserRoute>
+			<h1
+				className='jumbotron text-center bg-primary square '
+				style={{ display: "grid", height: "10vh" }}
+			>
+				Dashboard
+			</h1>
+		</UserRoute>
+	);
 };
-
 export default UserIndex;

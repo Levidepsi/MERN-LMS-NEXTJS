@@ -1,16 +1,17 @@
 import axios from "axios";
-import InstructorRoute from "../../../components/routes/InstructorRoute";
-const CourseCreate = () => {
+import InstructorRoute from "../../components/routes/InstructorRoute";
+
+const InstructorIndex = () => {
 	return (
 		<InstructorRoute>
 			<h1
 				className='jumbotron text-center bg-primary square '
 				style={{ display: "grid", height: "10vh" }}
 			>
-				Create Course
+				Instructor Dashboard
 			</h1>
 		</InstructorRoute>
 	);
 };
 
-export default CourseCreate;
+export default InstructorIndex;

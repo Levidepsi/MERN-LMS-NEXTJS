@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Menu } from "antd";
 import Link from "next/link";
 import {
@@ -6,15 +6,20 @@ import {
 	LoginOutlined,
 	UserAddOutlined,
 	LogoutOutlined,
-	CoffeeOutlined
+	CoffeeOutlined,
+	CarryOutOutlined,
+	TeamOutlined
 } from "@ant-design/icons";
 import { Context } from "../context";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 
-const { Item, SubMenu } = Menu;
+const { Item, SubMenu, ItemGroup } = Menu;
 
+if (typeof document === "undefined") {
+	React.useLayoutEffect = React.useEffect;
+}
 const TopNav = () => {
 	const [current, setCurrent] = useState("");
 
@@ -51,6 +56,41 @@ const TopNav = () => {
 				</Link>
 			</Item>
 
+			{user && user.role && user.role.includes("Instructor") ? (
+				<Item
+					key='/instructor/course/create'
+					onClick={e => setCurrent(e.key)}
+					icon={<CarryOutOutlined />}
+				>
+					<Link href='/instructor/course/create'>
+						<a>Create Course</a>
+					</Link>
+				</Item>
+			) : (
+				<Item
+					key='/user/become-instructor'
+					onClick={e => setCurrent(e.key)}
+					icon={<TeamOutlined />}
+				>
+					<Link href='/user/become-instructor'>
+						<a>Become Instructor</a>
+					</Link>
+				</Item>
+			)}
+
+			{user && user.role && user.role.includes("Instructor") && (
+				<Item
+					key='/instructor'
+					onClick={e => setCurrent(e.key)}
+					icon={<TeamOutlined />}
+					className='float-right'
+				>
+					<Link href='/instructor'>
+						<a>Instructor</a>
+					</Link>
+				</Item>
+			)}
+
 			{user === null && (
 				<>
 					<Item
@@ -77,17 +117,21 @@ const TopNav = () => {
 
 			{user !== null && (
 				<SubMenu
+					key={user}
 					icon={<CoffeeOutlined />}
 					title={user && user.name}
 					className='float-right'
 				>
-					<Item
-						onClick={logout}
-						icon={<LogoutOutlined />}
-						className='float-right'
-					>
-						Logout
-					</Item>
+					<ItemGroup>
+						<Item key='/user'>
+							<Link href='/user'>
+								<a>Dashboard</a>
+							</Link>
+						</Item>
+						<Item onClick={logout} icon={<LogoutOutlined />}>
+							Logout
+						</Item>
+					</ItemGroup>
 				</SubMenu>
 			)}
 		</Menu>

@@ -1,24 +1,24 @@
 import express from "express";
 import cors from "cors";
+import dotenv from "dotenv";
+
 import mongoose from "mongoose";
 import csrf from "csurf";
 import cookieParser from "cookie-parser";
+
+dotenv.config();
 const morgan = require("morgan");
-require("dotenv").config();
+
 import authRoute from "./routes/auth.js";
+import instrucRoute from "./routes/instructor.js";
 
 const csrfProtection = csrf({ cookie: true });
 
 const app = express();
 
-mongoose
-	.connect(process.env.MONGODB, {
-		useNewUrlParser: true,
-		useUnifiedTopology: true
-	})
-	.then(() => {
-		console.log(`Database connected to ${process.env.MONGODB}`);
-	});
+mongoose.connect(process.env.MONGODB).then(() => {
+	console.log(`Database connected to ${process.env.MONGODB}`);
+});
 
 // applymiddlewares
 app.use(cors());
@@ -28,6 +28,7 @@ app.use(morgan("dev"));
 
 // route
 app.use("/api", authRoute);
+app.use("/api", instrucRoute);
 
 // csrf
 app.use(csrfProtection);

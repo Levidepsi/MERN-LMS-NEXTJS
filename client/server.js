@@ -17,7 +17,7 @@ app
 				"/api",
 				createProxyMiddleware({
 					target: "http://localhost:8000",
-					changeOrign: true
+					changeOrigin: true
 				})
 			);
 		}

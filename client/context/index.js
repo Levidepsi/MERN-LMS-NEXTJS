@@ -62,13 +62,13 @@ const Provider = ({ children }) => {
 		}
 	);
 
-	useEffect(() => {
-		const getCsrfToken = async () => {
-			const { data } = await axios.get("/api/csrf-token");
-			console.log("CSRF", data);
+	const getCsrfToken = async () => {
+		const { data } = await axios.get("/api/csrf-token");
 
-			axios.defaults.headers["X-CSRF-Token"] = data.getCsrfToken;
-		};
+		axios.defaults.headers["X-CSRF-Token"] = data.getCsrfToken;
+		console.log("CSRF", data.getCsrfToken);
+	};
+	useEffect(() => {
 		getCsrfToken();
 	}, []);
 

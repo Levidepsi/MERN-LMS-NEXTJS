@@ -8,7 +8,7 @@ import { Context } from "../context";
 
 const Register = () => {
 	const [name, setName] = useState("levi");
-	const [email, setEmail] = useState("levidepsi@gmail.com");
+	const [email, setEmail] = useState("levidepsi7@gmail.com");
 	const [password, setPassword] = useState("123456");
 	const [loading, setLoading] = useState(false);
 
@@ -32,8 +32,12 @@ const Register = () => {
 				email,
 				password
 			});
+
 			console.log(data);
 			toast.success("REGISTERED");
+			setName("");
+			setEmail("");
+			setPassword("");
 			setLoading(false);
 		} catch (error) {
 			console.log(error);
@@ -77,14 +81,15 @@ const Register = () => {
 						placeholder='Enter Password'
 						required
 					/>
-
-					<button
-						type='submit'
-						className='btn btn-block btn-primary'
-						disabled={!name || !email || !password || loading}
-					>
-						{loading ? <SyncOutlined spin /> : "Submit"}
-					</button>
+					<div className='d-grid gap-2'>
+						<button
+							type='submit'
+							className='btn btn-block btn-primary'
+							disabled={!name || !email || !password || loading}
+						>
+							{loading ? <SyncOutlined spin /> : "Submit"}
+						</button>
+					</div>
 				</form>
 				<p className='text-center p-3'>
 					Already Registered?
