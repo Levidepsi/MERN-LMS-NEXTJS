@@ -4,10 +4,10 @@ import Course from "../model/courseModel.js";
 import slugify from "slugify";
 
 const awsConfig = {
-	accessKeyId: "AKIAQ4PUZ5AQ6Z6YAMD4",
-	secretAccessKey: "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",
-	region: "us-east-2",
-	apiVersion: "2010-12-01"
+	accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY_ID,
+  region: process.env.REGION,
+  apiVersion: process.env.API_VERSION,
 };
 
 const S3 = new AWS.S3(awsConfig);
