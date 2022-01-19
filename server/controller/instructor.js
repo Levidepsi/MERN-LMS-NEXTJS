@@ -3,7 +3,7 @@ import queryString from "query-string";
 import Stripe from "stripe";
 
 const stripe = Stripe(
-  "sk_test_51JzcVNEFtnu5nZOoENEOGMa4Uj9cfDCSYLQttpy02MQxC9SRoAqqnZnAjNznKsxBJXabum9tfuYRj0re7bp0seQE00hAYLiYi5"
+  process.env.STRIPE_SECRET
 );
 // console.log(stripe);
 
