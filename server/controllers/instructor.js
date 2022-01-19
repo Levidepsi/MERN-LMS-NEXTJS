@@ -1,6 +1,9 @@
 import User from "../model/userModel.js";
 import queryString from "query-string";
-const stripe = require("stripe")(process.env.STRIPE_SECRET);
+import Course from "../model/courseModel.js";
+const stripe = require("stripe")(
+	"sk_test_51JzcVNEFtnu5nZOoENEOGMa4Uj9cfDCSYLQttpy02MQxC9SRoAqqnZnAjNznKsxBJXabum9tfuYRj0re7bp0seQE00hAYLiYi5"
+);
 
 export const makeInstructor = async (req, res) => {
 	try {
@@ -69,5 +72,17 @@ export const currentInstructor = async (req, res) => {
 		}
 	} catch (error) {
 		console.log(error);
+	}
+};
+
+export const instructorCourses = async (req, res) => {
+	try {
+		// find based on the instructor
+		const courses = await Course.find({ instructor: req.user._id })
+			.sort({ createdAt: -1 })
+			.exec();
+		res.json(courses);
+	} catch (error) {
+		console(error);
 	}
 };

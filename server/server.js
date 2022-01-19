@@ -1,16 +1,16 @@
 import express from "express";
 import cors from "cors";
-import dotenv from "dotenv";
+const dotenv = require("dotenv").config();
 
 import mongoose from "mongoose";
 import csrf from "csurf";
 import cookieParser from "cookie-parser";
 
-dotenv.config();
 const morgan = require("morgan");
 
 import authRoute from "./routes/auth.js";
 import instrucRoute from "./routes/instructor.js";
+import courseRoute from "./routes/course.js";
 
 const csrfProtection = csrf({ cookie: true });
 
@@ -22,13 +22,14 @@ mongoose.connect(process.env.MONGODB).then(() => {
 
 // applymiddlewares
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: "5mb" }));
 app.use(cookieParser());
 app.use(morgan("dev"));
 
 // route
 app.use("/api", authRoute);
 app.use("/api", instrucRoute);
+app.use("/api", courseRoute);
 
 // csrf
 app.use(csrfProtection);

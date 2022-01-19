@@ -66,7 +66,7 @@ const Provider = ({ children }) => {
 		const { data } = await axios.get("/api/csrf-token");
 
 		axios.defaults.headers["X-CSRF-Token"] = data.getCsrfToken;
-		console.log("CSRF", data.getCsrfToken);
+		// console.log("CSRF", data.getCsrfToken);
 	};
 	useEffect(() => {
 		getCsrfToken();
