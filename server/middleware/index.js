@@ -2,7 +2,7 @@ import jwt from "express-jwt";
 import User from "../model/userModel.js";
 
 export const requireSign = jwt({
-	secret: "adahs98d6a9s8das8duasda09da90sn7da0sdas0d7ab0ds7a0d7a09dab0d7a0s9d",
+	secret: process.env.JWT_SECRET
 	getToken: (req, res) => req.cookies.token,
 	algorithms: ["HS256"]
 });
