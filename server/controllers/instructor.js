@@ -2,7 +2,7 @@ import User from "../model/userModel.js";
 import queryString from "query-string";
 import Course from "../model/courseModel.js";
 const stripe = require("stripe")(
-	"sk_test_51JzcVNEFtnu5nZOoENEOGMa4Uj9cfDCSYLQttpy02MQxC9SRoAqqnZnAjNznKsxBJXabum9tfuYRj0re7bp0seQE00hAYLiYi5"
+	process.env.STRIPE_KEY
 );
 
 export const makeInstructor = async (req, res) => {
